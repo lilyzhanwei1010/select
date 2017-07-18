@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html ng-app="Aa">
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+    input[type=text]{
+      background:#eee;
+      padding:10px;
+      width:300px;
+      border:1px solid #ccc;
+      outline:none;
+      font-size:25px;
+      filter:alpha(opacity:1);
+      opacity:1;
+    }
+    input[type=button]{
+      padding:17px;
+      background:#FF8247;
+      color:#fff;
+      border:none;
+      vertical-align: top;
+      filter:alpha(opacity:1);
+      opacity:0.9;
+
+    }
+    #con{
+      width:400px;
+
+      margin:380px auto;
+      position:relative;
+    }
+    body{
+      background:url(img/71.jpg);
+      background-size:100%;
+
+    }
+    ul{
+      position:absolute;
+      top:60px;
+      left:0;
+      padding:0;
+      color:#555;
+      width:320px;
+      margin:0;
+
+    }
+    ul li{
+      list-style:none;
+      text-align:center;
+      padding:10px;
+      background:#fff;
+      filter:alpha(opacity:0.5);
+      opacity:0.5;
+      border:1px solid #fff;
+    }
+  </style>
+  <script src="angular.min.js"></script>
+  <script src="jquery-1.11.3.js"></script>
+  <script>
+    var m1=angular.module('Aa',[]);
+    m1.controller('se',['$scope','$http','$timeout',function($scope,$http,$timeout){
+        //$scope.textt="nihao";
+      $scope.arr=[];
+   var timer=null;
+        $scope.change=function(textt){
+          $timeout.cancel(timer);
+          timer=$timeout(function(){
+            $http({
+              method: "JSONP",
+              url:"https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd="+textt+"&cb=JSON_CALLBACK"
+            }).success(function(data){
+              console.log(data.s);
+              $scope.arr=data.s;
+              console.log($scope.arr)
+            })
+          },500)
+
+        }
+
+
+      //console.log( $scope.textt);
+
+
+
+
+    }])
+  </script>
+</head>
+<body>
+<div id="con" ng-controller="se" >
+  <input type="text" ng-model="textt" ng-keyup="change(textt)"/>
+  <input type="button" value="搜索" />
+  <ul >
+    <li ng-repeat="dat in arr">{{dat}}</li>
+  </ul>
+</div>
+
+
+</body>
+</html>
